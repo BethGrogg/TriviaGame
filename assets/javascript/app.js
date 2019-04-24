@@ -25,7 +25,7 @@ var questionArray = [{
 {
     question: "Who walked Carol down the aisle when she married Susan?",
     answer: ["Bob", "Chandler", "Tony", "Ross"],
-    correct: "1",
+    correct: "3",
     image: ("assets/images/carol_wedding.gif")
 },
 {
@@ -55,7 +55,7 @@ var questionArray = [{
 {
     question: "What did Monica make when she was trying to get over Richard?",
     answer: ["Spaghetti Sauce", "Cupcakes", "Jam", "Bread"],
-    correct: "1",
+    correct: "2",
     image: ("assets/images/jam2.gif")
 }
 ];
@@ -76,30 +76,57 @@ function questionSetUp() {
     $("#1").text(questionArray[questionIndex].answer[1]);
     $("#2").text(questionArray[questionIndex].answer[2]);
     $("#3").text(questionArray[questionIndex].answer[3]);
+    $('.image').text("");
+    $('#correct').text("");
+    $('#answer').text("");
     
 }
 
+function hideValues() {
+    $("#time").text("");
+    $(".question").text("");
+    $("#0").text("");
+    $("#1").text("");
+    $("#2").text("");
+    $("#3").text("");
+    
+}
 $(document).ready(function() {
     questionSetUp();
 
 
 
 if ($('.h4').click(function() {
-    console.log(questionArray[questionIndex].correct);
+    answered = true;
     var id = $(this).attr('id');
+   
     if (id === questionArray[questionIndex].correct) {
-        
+        //user chose the correct answer
         correct();
-    } else if (time===0){
-        timedOut();
-    }else {
+        
+    } else {
+        //user chose the wrong answer
         incorrect();
+       
     };
-
-    $('.image').append('<img class=answerImage width="200" height="200" src="' + questionArray[questionIndex].image + ' ">');
-    
     clearInterval(intervalId);
-    count();
+    console.log(clockRunning);
+    showAnswer();
+    $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
+    
+    $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
+   
+    
+    hideValues();
+   
+    //start();
+    
+   
+
+
+
+
+    
 }));
 
 function start() {
@@ -112,19 +139,35 @@ function start() {
   
   }
 
+  function showAnswer() {
+    if (!clockRunning) {
+        intervalId = setInterval(count2, 1000);
+        clockRunning = true;
+       
+      }
+  }
+
   function correct() {
       $('#correct').text("You are correct!");
       correctAnswers++;
+      clockRunning=false;
+     
+      
       
   }
 
   function incorrect() {
-      $('#incorrect').text("Wrong Answer!");
+      $('#correct').text("Wrong Answer!");
      incorrectAnswers++;
+     clockRunning=false;
+     
   }
 
   function timedOut() {
-      $('#timesup').text("Time's Up!");
+      console.log("now in here");
+      $('#correct').text("Time's Up!");
+      clockRunning=false;
+     
       
   }
 
@@ -134,11 +177,23 @@ function start() {
 
   }
 
+  function count2() {
+      
+      time=2;
+      time--;
+  }
+
   function count() {
-    if (time === 0) {
-        time=20;
+
+    if (!answered && time === 0) {
+        timedOut();
+        
+    } else if (time === 0) {
+       
+        time=5;
         questionIndex++;
         questionSetUp();
+        
     } else {
        
         //decrement time by 1
