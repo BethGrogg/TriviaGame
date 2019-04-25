@@ -91,43 +91,6 @@ function hideValues() {
     $("#3").text("");
     
 }
-$(document).ready(function() {
-    questionSetUp();
-
-
-
-if ($('.h4').click(function() {
-    answered = true;
-    var id = $(this).attr('id');
-   
-    if (id === questionArray[questionIndex].correct) {
-        //user chose the correct answer
-        correct();
-        
-    } else {
-        //user chose the wrong answer
-        incorrect();
-       
-    };
-    clearInterval(intervalId);
-    console.log(clockRunning);
-    showAnswer();
-    $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
-    
-    $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
-   
-    
-    hideValues();
-   
-    //start();
-    
-   
-
-
-
-
-    
-}));
 
 function start() {
 
@@ -150,10 +113,9 @@ function start() {
   function correct() {
       $('#correct').text("You are correct!");
       correctAnswers++;
-      clockRunning=false;
-     
-      
-      
+      clockRunning=false;  
+       
+          
   }
 
   function incorrect() {
@@ -164,11 +126,10 @@ function start() {
   }
 
   function timedOut() {
-      console.log("now in here");
+      
       $('#correct').text("Time's Up!");
       clockRunning=false;
-     
-      
+         
   }
 
   function finalScreen() {
@@ -188,6 +149,7 @@ function start() {
     if (!answered && time === 0) {
         timedOut();
         
+        
     } else if (time === 0) {
        
         time=5;
@@ -203,6 +165,43 @@ function start() {
         $("#time").text("Time Remaining: "+time);
     }
    
+$(document).ready(function() {
+    //getting question information from the object array
+    questionSetUp();
+
+
+//if user clicks an answer...
+if ($('.h4').click(function() {
+    answered = true;
+    var id = $(this).attr('id');
+   
+    if (id === questionArray[questionIndex].correct) {
+        //user chose the correct answer
+        correct();
+        
+    } else {
+        //user chose the wrong answer
+        incorrect();
+       
+    };
+    
+    
+    showAnswer();
+    $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
+    
+    $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
+    clearInterval(intervalId);
+    
+    hideValues();
+   
+    //start();
+   
+  
+}));
+
+
+
+
 
   
 
