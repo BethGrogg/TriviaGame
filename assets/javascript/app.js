@@ -63,7 +63,7 @@ var questionArray = [{
 var questionIndex = 0;
 //var question = questionArray[questionIndex].question;
 var clockRunning = false;
-var time=10;
+var time=5;
 //set to true if user chooses a response so that time is stopped
 var answered = false;
 var intervalId;
@@ -134,7 +134,8 @@ function start() {
 
   function finalScreen() {
       $('#numberCorrect').text(correctAnswers);
-      $('numberIncorrect').text(incorrectAnswers);
+      $('#numberIncorrect').text(incorrectAnswers);
+      hideValues();
 
   }
 
@@ -191,11 +192,15 @@ if ($('.h4').click(function() {
     
     $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
     clearInterval(intervalId);
-    
+    //we don't want the questions, answer options or time left to display when showing answer
     hideValues();
    
     //start();
-   
+    console.log(questionIndex);
+    console.log(questionArray.length);
+   if (questionIndex === (questionArray.length - 1)) {
+       finalScreen();
+   }
   
 }));
 
