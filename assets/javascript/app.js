@@ -73,6 +73,7 @@ var incorrectAnswers = 0;
 function questionSetUp() {
     answered = false;
     time = 5;
+    start();
     $(".question").text(questionArray[questionIndex].question);
     $("#0").text(questionArray[questionIndex].answer[0]);
     $("#1").text(questionArray[questionIndex].answer[1]);
@@ -122,13 +123,14 @@ function start() {
         setTimeout (function () {
             questionSetUp();
             $('.image').text("");
+            
         }, 5000);
     } else {
         setTimeout (function () {
             finalScreen();
-        }, 3000);
+        }, 2000);
         }
-        
+       
     }
 
 
@@ -185,16 +187,10 @@ function start() {
     $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
     
     $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
-    //clearInterval(intervalId);
+    clearInterval(intervalId);
     //we don't want the questions, answer options or time left to display when showing answer
     hideValues();
    
-  }
-
-  function count2() {
-      console.log("count");
-      time=2;
-      time--;
   }
 
   function count() {
@@ -207,7 +203,7 @@ function start() {
         
     } else if (answered === true) {
        clearInterval(intervalId);
-       // time=5;
+       //time=5;
       //  questionIndex++;
       //  questionSetUp();
         
@@ -243,24 +239,9 @@ if ($('.h4').click(function() {
        
     };
     
-    
-    
-    //start();
-    
-  
-  
+
 }));
 
 
-
-
-
-  
-
-
-  
-  
-
-  start();
 
 });
