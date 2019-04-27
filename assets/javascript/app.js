@@ -71,6 +71,8 @@ var correctAnswers = 0;
 var incorrectAnswers = 0;
 
 function questionSetUp() {
+    answered = false;
+    time = 5;
     $(".question").text(questionArray[questionIndex].question);
     $("#0").text(questionArray[questionIndex].answer[0]);
     $("#1").text(questionArray[questionIndex].answer[1]);
@@ -79,6 +81,8 @@ function questionSetUp() {
     $('.image').text("");
     $('#correct').text("");
     $('#answer').text("");
+    $('#playButton').empty();
+    
     
 }
 
@@ -102,18 +106,39 @@ function start() {
   
   }
 
-  function showAnswer() {
+  function answerTimer() {
+      
     if (!clockRunning) {
+        
         intervalId = setInterval(count2, 1000);
         clockRunning = true;
        
       }
   }
 
+  function reset() {
+    questionIndex++;
+    if (questionIndex < questionArray.length) {
+        setTimeout (function () {
+            questionSetUp();
+            $('.image').text("");
+        }, 5000);
+    } else {
+        setTimeout (function () {
+            finalScreen();
+        }, 3000);
+        }
+        
+    }
+
+
   function correct() {
       $('#correct').text("You are correct!");
+      
       correctAnswers++;
-      clockRunning=false;  
+      clockRunning=false; 
+      showAnswer(); 
+      reset();
        
           
   }
@@ -122,6 +147,8 @@ function start() {
       $('#correct').text("Wrong Answer!");
      incorrectAnswers++;
      clockRunning=false;
+     showAnswer();
+     reset();
      
   }
 
@@ -129,42 +156,70 @@ function start() {
       
       $('#correct').text("Time's Up!");
       clockRunning=false;
+      showAnswer();
+      reset();
          
   }
 
   function finalScreen() {
-      $('#numberCorrect').text(correctAnswers);
-      $('#numberIncorrect').text(incorrectAnswers);
+      $('#numberCorrect').text("Correct Responses: "+correctAnswers);
+      $('#numberIncorrect').text("Incorrect Responses: "+incorrectAnswers);
       hideValues();
+      $('#correct').text("");
+      $('#answer').text("");
+      $('.image').text("");
+      $('#playButton').text('Play again?');
 
   }
 
+  $('#playButton').on("click", function () {
+     
+    $('#playButton');
+    questionSetUp();
+    console.log("in here");
+});
+
+  function showAnswer() {
+    
+    //answerTimer();
+    $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
+    
+    $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
+    //clearInterval(intervalId);
+    //we don't want the questions, answer options or time left to display when showing answer
+    hideValues();
+   
+  }
+
   function count2() {
-      
+      console.log("count");
       time=2;
       time--;
   }
 
   function count() {
 
-    if (!answered && time === 0) {
+    if (time === 0) {
+        answered=true;
+        clearInterval(intervalId);
         timedOut();
         
         
-    } else if (time === 0) {
-       
-        time=5;
-        questionIndex++;
-        questionSetUp();
+    } else if (answered === true) {
+       clearInterval(intervalId);
+       // time=5;
+      //  questionIndex++;
+      //  questionSetUp();
         
     } else {
        
         //decrement time by 1
     time--; 
-       
+    $("#time").text("Time Remaining: "+time);
         }
-        $("#time").text("Time Remaining: "+time);
+         
     }
+    
    
 $(document).ready(function() {
     //getting question information from the object array
@@ -173,34 +228,26 @@ $(document).ready(function() {
 
 //if user clicks an answer...
 if ($('.h4').click(function() {
-    answered = true;
+    
     var id = $(this).attr('id');
    
     if (id === questionArray[questionIndex].correct) {
+        answered = true;
         //user chose the correct answer
         correct();
         
     } else {
+        answered = true;
         //user chose the wrong answer
         incorrect();
        
     };
     
     
-    showAnswer();
-    $('#answer').text("The answer is "+questionArray[questionIndex].answer[questionArray[questionIndex].correct]);
     
-    $('.image').append('<img class=answerImage width="350" height="300" src="' + questionArray[questionIndex].image + ' ">');
-    clearInterval(intervalId);
-    //we don't want the questions, answer options or time left to display when showing answer
-    hideValues();
-   
     //start();
-    console.log(questionIndex);
-    console.log(questionArray.length);
-   if (questionIndex === (questionArray.length - 1)) {
-       finalScreen();
-   }
+    
+  
   
 }));
 

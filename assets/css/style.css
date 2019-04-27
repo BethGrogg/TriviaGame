@@ -1,7 +1,23 @@
 body {
+    
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
 
 }
 
+.jumbotron{
+   
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    min-height: 300px;
+   }
+
+html { 
+    background: url(/assets/images/friends7_background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
