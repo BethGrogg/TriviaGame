@@ -62,7 +62,7 @@ var questionArray = [{
 
 var questionIndex = 0;
 var clockRunning = false;
-var time = 5;
+var time = 10;
 var answered = false;
 var intervalId;
 var correctAnswers = 0;
@@ -70,7 +70,7 @@ var incorrectAnswers = 0;
 
 function questionSetUp() {
     answered = false;
-    time = 5;
+    time = 10;
     start();
     $(".question").text(questionArray[questionIndex].question);
     $("#0").text(questionArray[questionIndex].answer[0]);
@@ -178,7 +178,7 @@ $(document).on("click", ".playAgain", function () {
     questionIndex = 0;
 
     clockRunning = false;
-    time = 5;
+    time = 10;
     answered = false;
     intervalId;
     correctAnswers = 0;
